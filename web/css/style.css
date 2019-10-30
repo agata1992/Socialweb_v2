@@ -1,0 +1,21 @@
+.navbar .navbar-brand{
+	pointer-events: none;
+}
+
+.login_container{
+	margin-top:5%;
+	width:40%;
+}
+
+.register_container{
+	margin-top:2%;
+	width:40%;
+}
+
+form .help-block ul li span{
+	display:none;
+}
+
+.loginH1Margin{
+	margin-bottom:30px;
+}
