@@ -22,6 +22,8 @@
 		{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}	
 
 		{{ form(form,{'attr': {'novalidate':'true'}})}}
+		
+		<a href="{{ path('path_change_password') }}">Zapomnialeś hasła?</a>
 	</div>
 {% endblock %}
 

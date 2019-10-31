@@ -15,34 +15,15 @@ class MailService{
 		$this->mailer = $mailer;
 	}	
 	
+	public function mailScheme1($email,$name,$title,$body){
 	
-public function activateMail($link,$email,$name){
-	
-	$msg = 'Dziękujemy za rejestracje. Aby aktywować konto otwórz link '.$link;
-	
-	$message  = \Swift_Message::newInstance()
-					->setSubject('Potwierdzenie rejestracji')
-					->setFrom(array('' => "test test"))
-					->setTo(array($email => $name))
-					->setBody($msg);
+		$message  = \Swift_Message::newInstance()
+						->setSubject($title)
+						->setFrom(array('' => "test test"))
+						->setTo(array($email => $name))
+						->setBody($body);
 				
-	$this->mailer->send($message);
-	
-	
+		$this->mailer->send($message);
+	}	
 }	
-	
-	
-	
-	
-	
-}	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 ?>
