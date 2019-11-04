@@ -40,7 +40,7 @@
 					{% if not user == "" %}
 						<ul class="nav navbar-nav navbar-right">
 							<li>
-								<a href="{{ path('path_sign_out') }}">{{ user_data.name }} {{ user_data.surname }}
+								<a href="{{ path('path_sign_out') }}">{{ myData.name }} {{ myData.surname }}
 									<span><i class="fa fa-sign-out"></i></span>
 								</a>
 							</li>
@@ -65,5 +65,12 @@
 		
         {% block pageContent %}{% endblock %}
         
+		<div id="footer">
+			<div class="container">
+				<p class="text-muted">&copy; Socialweb 2019</p>
+			</div>
+		</div>
+		
+		<script src="{{ asset('js/script.js') }}"></script>
     </body>
 </html>

@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+{% import 'Profile/jumbotron1.html.twig' as jumbo %}
+
+{% block title %}
+	Strona Główna | {{ parent() }}
+{% endblock %}
+
+{% block pageContent %}
+	{% include 'Profile/profileScheme.html.twig' %}
+{% endblock %}

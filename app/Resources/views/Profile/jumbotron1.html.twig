@@ -1,0 +1,35 @@
+{% macro jumbotron1(userName,userCity,userAge) %}
+
+	<div class="jumbotron jumbotron1">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5">
+					<img class="image img-circle" src="{{ asset('serviceImage/blank-profile.png') }}">
+				</div>
+				<div class="col-md-1">
+					<div class="info text-center">
+						<h4>Znajomych</h4></br>
+						<h3>4</h3>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="info text-center">
+						<h4>Zdjęcia</h4></br>
+						<h3>4</h3>
+					</div>
+				</div>
+				<div class="col-md-4 text-right">
+					<a class="btn btn-lg btn-primary">lalaldsdsd <span><i class="fa fa-user"></i></span></a>
+					<a class="btn btn-lg btn-primary">lalal</a>
+				</div>
+			</div>
+			
+			<div class="row personal">
+				<div class="col-md-12">
+					<strong class="lead">{{ userName }}</strong></br>
+					<strong>{{ userCity }}, {{ userAge }}</strong>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

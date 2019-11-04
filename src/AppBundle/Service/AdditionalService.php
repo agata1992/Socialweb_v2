@@ -23,4 +23,19 @@ class AdditionalService
 	{
 		return preg_match('/[^a-zA-Z\d]/',$string);
 	}	
+	
+	public function getAgeName($age){
+		
+		if($age == 1)
+			return 'rok';
+		elseif($age % 100 >=10 && $age % 100 <= 19)
+			return 'lat';
+		else{
+			if(in_array($age % 10, [0,1,5,6,7,8,9]))
+				return 'lat';
+		
+			if(in_array($age % 10, [2,3,4]))
+				return 'lat';
+		}
+	}
 }

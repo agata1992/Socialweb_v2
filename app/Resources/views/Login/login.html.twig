@@ -15,12 +15,10 @@
 {% endblock %}
 
 {% block pageContent %}
-
 	<div class="container {{ container }}">
 		<h1 class="loginH1Margin">{{ h1 }}</h1>
 	
 		{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}	
-
 		{{ form(form,{'attr': {'novalidate':'true'}})}}
 		
 		<a href="{{ path('path_change_password') }}">Zapomnialeś hasła?</a>

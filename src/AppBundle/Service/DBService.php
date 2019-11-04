@@ -9,10 +9,13 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Login;
 use AppBundle\Entity\ActivateLink;
 use AppBundle\Entity\ChangePasswordLink;
+use AppBundle\Entity\Posts\Posts;
+use AppBundle\Entity\Posts\Subposts;
 
+use AppBundle\Service\AdditionalService;
 
-class DBService
-{
+class DBService{
+	
 	protected $requestStack;
 	protected $entityManager;
 	
@@ -45,9 +48,23 @@ class DBService
 				return 0;
 		}	
 	}
-	public function getUserData($email){
-		$row = $this->entityManager->getRepository(User::class)->findOneBy([
-			'email' => $email]);
+	
+	public function getUserData($param,$type){
+	
+		$additionalService = new AdditionalService();
+		
+		if($type == 0)
+			$row = $this->entityManager->getRepository(User::class)->findOneBy([
+				'email' => $param]);
+		else
+			$row = $this->entityManager->getRepository(User::class)->findOneBy([
+				'id' => $param]);
+		
+		$row->age = date_diff(new \DateTime(),$row->getBirthdate())->y;
+		
+		$ageName = $additionalService->getAgeName($row->age);
+		
+		$row->age = $row->age.' '.$ageName;
 		
 		return $row;
 	}
@@ -184,6 +201,57 @@ class DBService
 				'userId' => $userId]);
 				
 		$this->entityManager->remove($row);
+		$this->entityManager->flush();
+	}
+
+	public function getPosts($id){
+		
+		$row = $this->entityManager->getRepository(Posts::class)->findBy([
+			'userId' => $id]);
+			
+		return $row;
+		
+	}
+	
+	public function addPost($id,$postForm){
+		
+		$postForm->setUserId($id);
+		$postForm->setDate(new \DateTime(date("Y-m-d H:i")));
+		
+		$this->entityManager->persist($postForm);
+		$this->entityManager->flush();
+	}
+	
+	public function getSubposts($posts){
+	
+		$subposts = array();
+		foreach($posts as $post){
+			
+			$row = $this->entityManager->getRepository(Subposts::class)->findBy([
+			'postId' => $post->getId()]);
+			
+			$row = $this->entityManager->createQueryBuilder()
+			->select('s.id,s.date,s.text,u.name,u.surname')
+			->from(Subposts::class,'s')
+			->leftjoin(User::class,'u','WITH','u.id = s.userId')
+			->orderBy('s.date', 'ASC')
+			->where('s.postId = :postId')
+			->setParameter(":postId",$post->getId())
+			->getQuery()->getResult();
+			
+			$subposts[$post->getId()] = $row;
+		}
+			
+		return $subposts;
+	}
+	
+	public function addSubpost($id,$postId,$subpostForm){
+		
+		$subpostForm->setUserId($id);
+		$subpostForm->setPostId($postId);
+		$subpostForm->setDate(new \DateTime(date("Y-m-d H:i")));
+		
+		$this->entityManager->persist($subpostForm);
 		$this->entityManager->flush();
 	}
 }

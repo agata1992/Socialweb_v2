@@ -1,0 +1,96 @@
+<div class="row">
+	<div class="col-md-7">
+		<div class="mainContainer">
+			{% if posts | length > 0 %}
+				{% for post in posts %}
+					<div class="postElement">
+						<img class="image img-circle" src="{{ asset('serviceImage/blank-profile.png') }}">
+						<a class="name" href="#">{{ userName }}</a>
+						<a class="date">{{ post.date | date('d.m.Y H:i') }}</a>
+						<div class="postMessage">
+							{{ post.text }}
+						</div>
+					</div>
+					
+					
+					{% set k = 0 %}
+					
+					{% set subCount = subposts[post.id] | length %}
+					
+					
+					{% for subpost in subposts[post.id] %}
+						{% if k < 3 %}
+							{% set hidden = '' %}
+						{% else %}
+							{% set hidden = 'hidden' %}
+						{% endif %}
+						
+						<div class="subpost_{{ post.id }} {{ hidden }}" id="subpost_{{ subpost.id }}">
+							<div class="subpostElement">
+								<table>
+									<tr>
+										<td class="imageTd">
+											<img class="image img-circle" src="{{ asset('serviceImage/blank-profile.png') }}">
+										</td>
+										<td class="contentTd">
+											<div class="subpostContent">
+												<a class="name" href="#">{{ subpost['name'] ~ ' ' ~ subpost['surname'] }}</a>
+												<a class="date">{{ subpost.date | date('d.m.Y H:i') }}</a>
+										
+												<div class="subpostMessage">
+													{{ subpost.text }}
+												</div>
+											</div>
+										</td>
+									</tr>
+								</table>	
+							</div>
+						</div>
+							
+						{% set k = k + 1 %}
+					{% endfor %}
+					
+					<div class="subpostInput">
+						{% form_theme subpostForm[post.id] 'bootstrap_3_layout.html.twig' %}
+						{{ form(subpostForm[post.id],{'attr': {'novalidate':'true'}}) }}
+					</div>
+					<div class="subpostMoreLess text-center hidden" id="subpostLess_{{ post.id }}" onclick="moreLess(0,0,{{post.id}})">
+						<a>Mniej</a>
+					</div>
+					
+					{% if subCount > 3 %}
+					<div class="subpostMoreLess text-center" id="subpostMore_{{ post.id }}" onclick="moreLess(1,0,{{post.id}})">
+						<a>Więcej</a>
+					</div>
+					{% endif %}
+					
+				{% endfor %}
+			{% else %}
+				<p class="text-center lead">
+					{% if myData == userData %}
+						Nie dodałeś żadnych postów
+					{% else %}
+						Użytkownik nie dodał postów
+					{% endif %}
+				</p>
+			{% endif %}
+			
+			{% if myData == userData %}
+				<div class="postInput">
+					{% form_theme postForm 'bootstrap_3_layout.html.twig' %}	
+					{{ form(postForm,{'attr': {'novalidate':'true'}}) }}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+		
+			
+
+		
+		
+	<div class="col-md-5">
+		<div class=" mainContainer">
+				komentarze
+		</div>
+	</div>
+</div>

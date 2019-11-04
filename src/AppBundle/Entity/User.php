@@ -87,6 +87,14 @@ class User{
 	 
 	private $activate;
 	
+	/**
+	 * @Assert\NotBlank(message = "Pole nie może być puste")
+	 *
+	 * @ORM\Column(type="string",length=1)
+	 */
+	 
+	private $sex;
+	
 	public function getId(){
 		
 		return $this->id;
@@ -136,6 +144,11 @@ class User{
 		return $this->activate;
 	}
 	
+	public function getSex(){
+		
+		return $this->sex;
+	}
+	
 	public function setName($name){
 		
 		return $this->name = $name;
@@ -179,6 +192,11 @@ class User{
 	public function setActivate($activate){
 		
 		return $this->activate = $activate;
+	}
+	
+	public function setSex($sex){
+		
+		return $this->sex = $sex;
 	}
 }
 ?>

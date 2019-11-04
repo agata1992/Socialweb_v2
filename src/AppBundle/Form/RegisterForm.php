@@ -8,7 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-	
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 class RegisterForm extends AbstractType{
 	
 	public function buildForm(FormBuilderInterface $builder,array $opt){
@@ -31,6 +32,15 @@ class RegisterForm extends AbstractType{
 			))
 			->add('city',TextType::class,array(
 				'label'=>'Miasto'
+			))
+			->add('sex',ChoiceType::class,array(
+				'label'=>'Płeć',
+				'empty_data'=>NULL,
+				'placeholder'=>'---',
+				'choices'=>array(
+					'Mężczyzna'=>'m',
+					'Kobieta'=>'f'
+				)
 			))
 			->add('birthdate',BirthdayType::class,array(
 				'label'=>'Data urodzenia',

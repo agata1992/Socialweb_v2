@@ -1,0 +1,50 @@
+<div class="container-fluid">
+		
+	{% set userName = userData.name ~ ' ' ~ userData.surname %}
+	{% if userData.city == '' %}
+		{% set userCity = '---' %}
+	{% else %}
+		{% set userCity = userData.city %}
+	{% endif %}
+		
+	{{ jumbo.jumbotron1(userName,userCity,userData.age) }}
+		
+	{% if myData == userData %}	
+		{% set prefix = '' %}
+	{% else %}
+		{% set prefix = 'user_' %}
+	{% endif %}
+	
+	{%
+		set profileMenu = [
+			{'path': 'path_' ~ prefix ~ 'home','name':'Posty'},
+			{'path': 'path_' ~ prefix ~ 'about','name':'O mnie'},
+			{'path': 'path_' ~ prefix ~ 'photo','name':'Zdjęcia'},
+			{'path': 'path_' ~ prefix ~ 'friends','name':'Znajomi'}
+		]
+	%}
+	
+	{% if myData == userData %}
+		{% set param = {} %}
+	{% else %}
+		{% set param = {'id':userData.id} %}
+	{% endif %}
+	
+	<div class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					{% for menu in profileMenu %}
+						<li {{ app.request.get('_route') == menu['path'] ? 'class="active"': ''}}>
+							<a href="{{path(menu['path'],param)}}">{{ menu.name }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>	
+	
+	{% if app.request.get('_route') == 'path_' ~ prefix ~ 'home' %}
+		{% include 'Profile/posts.html.twig' %}
+	{% endif %}
+</div>
