@@ -104,7 +104,7 @@ class LoginController extends Controller{
 
 			$email = $form['email']->getData();
 			
-			$user_data = $dbService->getUserData($email);
+			$user_data = $dbService->getUserData($email,0);
 			
 			if($user_data != null)
 				$form->get('email')->addError(new FormError('Email jest już w użyciu'));

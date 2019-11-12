@@ -9,8 +9,13 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Login;
 use AppBundle\Entity\ActivateLink;
 use AppBundle\Entity\ChangePasswordLink;
+
 use AppBundle\Entity\Posts\Posts;
 use AppBundle\Entity\Posts\Subposts;
+
+use AppBundle\Entity\Comments\Comments;
+use AppBundle\Entity\Comments\Subcomments;
+
 
 use AppBundle\Service\AdditionalService;
 
@@ -60,11 +65,12 @@ class DBService{
 			$row = $this->entityManager->getRepository(User::class)->findOneBy([
 				'id' => $param]);
 		
-		$row->age = date_diff(new \DateTime(),$row->getBirthdate())->y;
+		if($row != NULL){
 		
-		$ageName = $additionalService->getAgeName($row->age);
-		
-		$row->age = $row->age.' '.$ageName;
+			$row->age = date_diff(new \DateTime(),$row->getBirthdate())->y;
+			$ageName = $additionalService->getAgeName($row->age);
+			$row->age = $row->age.' '.$ageName;
+		}
 		
 		return $row;
 	}
@@ -207,7 +213,7 @@ class DBService{
 	public function getPosts($id){
 		
 		$row = $this->entityManager->getRepository(Posts::class)->findBy([
-			'userId' => $id]);
+			'userId' => $id],['date' => 'DESC']);
 			
 		return $row;
 		
@@ -231,10 +237,10 @@ class DBService{
 			'postId' => $post->getId()]);
 			
 			$row = $this->entityManager->createQueryBuilder()
-			->select('s.id,s.date,s.text,u.name,u.surname')
+			->select('s.id,s.userId,s.date,s.text,u.name,u.surname,u.profileImg')
 			->from(Subposts::class,'s')
 			->leftjoin(User::class,'u','WITH','u.id = s.userId')
-			->orderBy('s.date', 'ASC')
+			->orderBy('s.date', 'DESC')
 			->where('s.postId = :postId')
 			->setParameter(":postId",$post->getId())
 			->getQuery()->getResult();
@@ -252,6 +258,63 @@ class DBService{
 		$subpostForm->setDate(new \DateTime(date("Y-m-d H:i")));
 		
 		$this->entityManager->persist($subpostForm);
+		$this->entityManager->flush();
+	}
+	
+	public function getComments($id){
+		
+		$row = $this->entityManager->createQueryBuilder()
+			->select('c.id,c.userId,c.date,c.text,u.name,u.surname,u.profileImg')
+			->from(Comments::class,'c')
+			->leftjoin(User::class,'u','WITH','u.id = c.userId')
+			->orderBy('c.date', 'DESC')
+			->where('c.profileId = :profileId')
+			->setParameter(":profileId",$id)
+			->getQuery()->getResult();
+			
+		return $row;
+	}
+	
+	public function addComment($profileId,$userId,$commentForm){
+		
+		$commentForm->setprofileId($profileId);
+		$commentForm->setUserId($userId);
+		$commentForm->setDate(new \DateTime(date("Y-m-d H:i")));
+		
+		$this->entityManager->persist($commentForm);
+		$this->entityManager->flush();
+	}
+	
+	public function getSubcomments($comments){
+	
+		$subcomments = array();
+		foreach($comments as $comment){
+			
+			$row = $this->entityManager->getRepository(Subcomments::class)->findBy([
+			'commentId' => $comment['id']]);
+			
+			$row = $this->entityManager->createQueryBuilder()
+			->select('c.id,c.userId,c.date,c.text,u.name,u.surname,u.profileImg')
+			->from(Subcomments::class,'c')
+			->leftjoin(User::class,'u','WITH','u.id = c.userId')
+			->orderBy('c.date', 'DESC')
+			->where('c.commentId = :commentId')
+			->setParameter(":commentId",$comment['id'])
+			->getQuery()->getResult();
+			
+			$subcomments[$comment['id']] = $row;
+		}
+			
+		return $subcomments;
+	}
+	
+	public function addSubcomment($id,$commentId,$subcommentForm){
+		
+		$subcommentForm->setUserId($id);
+		$subcommentForm->setCommentId($commentId);
+		$subcommentForm->setDate(new \DateTime(date("Y-m-d H:i")));
+		
+		$this->entityManager->persist($subcommentForm);
 		$this->entityManager->flush();
 	}
 }

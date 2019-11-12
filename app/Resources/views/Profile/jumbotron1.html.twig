@@ -1,35 +1,39 @@
-{% macro jumbotron1(userName,userCity,userAge) %}
-
-	<div class="jumbotron jumbotron1">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-5">
-					<img class="image img-circle" src="{{ asset('serviceImage/blank-profile.png') }}">
-				</div>
-				<div class="col-md-1">
-					<div class="info text-center">
-						<h4>Znajomych</h4></br>
-						<h3>4</h3>
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="info text-center">
-						<h4>Zdjęcia</h4></br>
-						<h3>4</h3>
-					</div>
-				</div>
-				<div class="col-md-4 text-right">
-					<a class="btn btn-lg btn-primary">lalaldsdsd <span><i class="fa fa-user"></i></span></a>
-					<a class="btn btn-lg btn-primary">lalal</a>
+<div class="jumbotron jumbotron1">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+			
+				{% if userData.profileImg is null  %}
+					<img class="img-circle" id="jumboImg" src="{{ asset('serviceImage/blank-profile.png') }}">
+				{% else %}
+					<img  class="img-circle" id="jumboImg" src="{{ asset('image/' ~ userData.profileImg) }}">
+				{% endif %}
+			
+				<div class="personal">
+				<strong class="lead">{{ userName }}</strong></br>
+				<strong>{{ userCity }}, {{ userData.age }}</strong></div>
+			</div>
+			<div class="col-md-2">
+				<div class="info text-center">
+					<h4>Znajomych</h4></br>
+					<h3>4</h3>
 				</div>
 			</div>
-			
-			<div class="row personal">
-				<div class="col-md-12">
-					<strong class="lead">{{ userName }}</strong></br>
-					<strong>{{ userCity }}, {{ userAge }}</strong>
+			<div class="col-md-2">
+				<div class="info text-center">
+					<h4>Zdjęcia</h4></br>
+					<h3>4</h3>
 				</div>
+			</div>
+			<div class="col-md-5 text-right">
+				{% if myData == userData %}
+					<a class="btn btn-lg btn-primary">Wiadomości  <span>1</span></a>
+					<a class="btn btn-lg btn-primary">Moje konto  <span><i class="fa fa-user"></i></span></a>
+				{% else %}
+					<a class="btn btn-lg btn-primary">Wiadomość <span><i class="fa fa-user"></i></span></a>
+					<a class="btn btn-lg btn-primary">Dodaj do znajomych</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
-{% endmacro %}
+</div>

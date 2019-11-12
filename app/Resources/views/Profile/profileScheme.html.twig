@@ -7,7 +7,7 @@
 		{% set userCity = userData.city %}
 	{% endif %}
 		
-	{{ jumbo.jumbotron1(userName,userCity,userData.age) }}
+	{% include "Profile/jumbotron1.html.twig" %}
 		
 	{% if myData == userData %}	
 		{% set prefix = '' %}
@@ -45,6 +45,7 @@
 	</div>	
 	
 	{% if app.request.get('_route') == 'path_' ~ prefix ~ 'home' %}
+		{% set link = app.request.get('_route') %}
 		{% include 'Profile/posts.html.twig' %}
 	{% endif %}
 </div>

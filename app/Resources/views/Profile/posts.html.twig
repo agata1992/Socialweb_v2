@@ -2,69 +2,98 @@
 	<div class="col-md-7">
 		<div class="mainContainer">
 			{% if posts | length > 0 %}
+				
+				{% set all_elements = 5 %}
+				{% set all_pages = (( posts | length ) / 5) | round(0,'ceil') %}
+				{% set begin = ( page * all_elements ) - all_elements %}
+				{% set end = begin + all_elements %}
+				
+				{% set i = 0 %}
+			
 				{% for post in posts %}
-					<div class="postElement">
-						<img class="image img-circle" src="{{ asset('serviceImage/blank-profile.png') }}">
-						<a class="name" href="#">{{ userName }}</a>
-						<a class="date">{{ post.date | date('d.m.Y H:i') }}</a>
-						<div class="postMessage">
-							{{ post.text }}
-						</div>
-					</div>
-					
-					
-					{% set k = 0 %}
-					
-					{% set subCount = subposts[post.id] | length %}
-					
-					
-					{% for subpost in subposts[post.id] %}
-						{% if k < 3 %}
-							{% set hidden = '' %}
-						{% else %}
-							{% set hidden = 'hidden' %}
-						{% endif %}
-						
-						<div class="subpost_{{ post.id }} {{ hidden }}" id="subpost_{{ subpost.id }}">
-							<div class="subpostElement">
-								<table>
-									<tr>
-										<td class="imageTd">
-											<img class="image img-circle" src="{{ asset('serviceImage/blank-profile.png') }}">
-										</td>
-										<td class="contentTd">
-											<div class="subpostContent">
-												<a class="name" href="#">{{ subpost['name'] ~ ' ' ~ subpost['surname'] }}</a>
-												<a class="date">{{ subpost.date | date('d.m.Y H:i') }}</a>
-										
-												<div class="subpostMessage">
-													{{ subpost.text }}
-												</div>
-											</div>
-										</td>
-									</tr>
-								</table>	
+				
+					{% if i >= begin and i < end %}
+						<div class="postElement">
+							<a href="{{ path(profileMenu[0]['path'],param) }}">
+								{% if userData.profileImg is null  %}
+									<img class="image img-circle postImg" src="{{ asset('serviceImage/blank-profile.png') }}">
+								{% else %}
+									<img class="img-circle postImg" src="{{ asset('image/' ~ userData.profileImg) }}">
+								{% endif %}
+							</a>
+							<a class="name" href="{{ path(profileMenu[0]['path'],param) }}">{{ userName }}</a>
+							<a class="date">{{ post.date | date('d.m.Y H:i') }}</a>
+							<div class="postMessage">
+								{{ post.text }}
 							</div>
 						</div>
+					
+						{% set k = 0 %}
+					
+						{% set subCount = subposts[post.id] | length %}
+					
+						{% for subpost in subposts[post.id] %}
+							{% if k < 3 %}
+								{% set hidden = '' %}
+							{% else %}
+								{% set hidden = 'hidden' %}
+							{% endif %}
+						
+							<div class="subpost_{{ post.id }} {{ hidden }}" id="subpost_{{ subpost.id }}">
+								<div class="subpostElement">
+									<table>
+										<tr>
+											<td class="imageTd">
+												<a  href="{{ myData.id == subpost.userId ? path('path_home') : path('path_user_home',{'id':subpost.userId}) }}" >
+													{% if subpost.profileImg is null  %}
+														<img class="image img-circle subpostImg" src="{{ asset('serviceImage/blank-profile.png') }}">
+													{% else %}
+														<img class="img-circle subpostImg" src="{{ asset('image/' ~ subpost.profileImg) }}">
+													{% endif %}
+												</a>		
+											</td>
+											<td class="contentTd">
+												<div class="subpostContent">
+													<a class="name" href="{{ myData.id == subpost.userId ? path('path_home') : path('path_user_home',{'id':subpost.userId}) }}">{{ subpost['name'] ~ ' ' ~ subpost['surname'] }}</a>
+													<a class="date">{{ subpost.date | date('d.m.Y H:i') }}</a>
+										
+													<div class="subpostMessage">
+														{{ subpost.text }}
+													</div>
+												</div>
+											</td>
+										</tr>
+									</table>	
+								</div>
+							</div>
 							
-						{% set k = k + 1 %}
-					{% endfor %}
+							{% set k = k + 1 %}
+						{% endfor %}
 					
-					<div class="subpostInput">
-						{% form_theme subpostForm[post.id] 'bootstrap_3_layout.html.twig' %}
-						{{ form(subpostForm[post.id],{'attr': {'novalidate':'true'}}) }}
-					</div>
-					<div class="subpostMoreLess text-center hidden" id="subpostLess_{{ post.id }}" onclick="moreLess(0,0,{{post.id}})">
-						<a>Mniej</a>
-					</div>
+						<div class="subpostMoreLess text-center hidden" id="subpostLess_{{ post.id }}" onclick="moreLess(0,0,{{post.id}})">
+							<a>Mniej</a>
+						</div>
 					
-					{% if subCount > 3 %}
-					<div class="subpostMoreLess text-center" id="subpostMore_{{ post.id }}" onclick="moreLess(1,0,{{post.id}})">
-						<a>Więcej</a>
-					</div>
+						{% if subCount > 3 %}
+							<div class="subpostMoreLess text-center" id="subpostMore_{{ post.id }}" onclick="moreLess(1,0,{{post.id}})">
+								<a>Więcej</a>
+							</div>
+						{% endif %}
+						
+						<div class="subpostInput">
+							{% form_theme subpostForm[post.id] 'bootstrap_3_layout.html.twig' %}
+							{{ form(subpostForm[post.id],{'attr': {'novalidate':'true'}}) }}
+						</div>
 					{% endif %}
-					
+				
+					{% set i = i + 1 %}
 				{% endfor %}
+				
+				{% if all_pages > 1 %}
+					<div class="paginationDiv text-center">
+						{% include "paginationButtons.html.twig" %}
+					</div>
+				{% endif %}
 			{% else %}
 				<p class="text-center lead">
 					{% if myData == userData %}
@@ -84,13 +113,137 @@
 		</div>
 	</div>
 		
-			
-
-		
-		
 	<div class="col-md-5">
-		<div class=" mainContainer">
-				komentarze
+		<div class="mainContainer">
+			<h3 class="text-center">Komentarze</h3>
+			
+			{% if comments | length > 0 %}
+				
+				{% set k = 0 %}
+				
+				{% set commCount = comments | length %}
+				
+				{% for comment in comments %}
+					{% if k < 13 %}
+						{% set hidden = '' %}
+					{% else %}
+						{% set hidden = 'hidden' %}
+					{% endif %}
+				
+					<div class="comment_ {{ hidden }}" id="commment_{{ comment.id }}">
+						<div class="postElement">
+							<a href="{{ myData.id == comment.userId ? path('path_home') : path('path_user_home',{'id':comment.userId}) }}" >
+								{% if comment.profileImg is null  %}
+									<img class="image img-circle postImg" src="{{ asset('serviceImage/blank-profile.png') }}">
+								{% else %}
+									<img class="img-circle postImg" src="{{ asset('image/' ~ comment.profileImg) }}">
+								{% endif %}
+							</a>
+							<a class="name" href="{{ myData.id == comment.userId ? path('path_home') : path('path_user_home',{'id':comment.userId}) }}">{{ comment.name ~ ' ' ~ comment.surname }}</a>
+							<a class="date">{{ comment.date | date('d.m.Y H:i') }}</a>
+							<div class="postMessage">
+								{{ comment.text }}
+							</div>
+						</div>	
+					
+					</div>
+					
+					{% set k2 = 0 %}
+					
+					{% set subcommCount = subcomments[comment.id] | length %}
+					
+					{% for subcomment in subcomments[comment.id] %}
+					
+						{% if k2 < 3 and k < 13 %}
+							{% set hidden = '' %}
+						{% else %}
+							{% set hidden = 'hidden' %}
+						{% endif %}
+							
+						<div class="subcomm_{{ comment.id }} {{ hidden }}" id="subcomm_{{ comment.id }}">
+							<div class="subpostElement">
+								<table>
+									<tr>
+										<td class="imageTd">
+											<a href="{{ myData.id == subcomment.userId ? path('path_home') : path('path_user_home',{'id':subcomment.userId}) }}" >
+												{% if subcomment.profileImg is null  %}
+													<img class="image img-circle subpostImg" src="{{ asset('serviceImage/blank-profile.png') }}">
+												{% else %}
+													<img class="img-circle subpostImg" src="{{ asset('image/' ~ subcomment.profileImg) }}">
+												{% endif %}
+											</a>		
+										</td>
+										<td class="contentTd">
+											<div class="subpostContent">
+												<a class="name" href="{{ myData.id == subcomment.userId ? path('path_home') : path('path_user_home',{'id':subcomment.userId}) }}">{{ subcomment.name ~ ' ' ~ subcomment.surname }}</a>
+												<a class="date">{{ subcomment.date | date('d.m.Y H:i') }}</a>
+										
+												<div class="subpostMessage">
+													{{ subcomment.text }}
+												</div>
+											</div>
+										</td>
+									</tr>
+								</table>	
+							</div>
+						</div>
+							
+						{% set k2 = k2 + 1 %}	
+					{% endfor %}
+					
+					<div class="subpostMoreLess text-center hidden" id="subcommLess_{{ comment.id }}" onclick="moreLess(0,2,{{ comment.id }})">
+						<a>Mniej</a>
+					</div>
+					
+					{% if subcommCount > 3 %}
+						{% if k >= 13 %}
+							{% set hidden_ = 'hidden' %}
+						{% else %}
+							{% set hidden_ = '' %}
+						{% endif %}
+						
+						<div class="subpostMoreLess text-center {{ hidden_ }}" id="subcommMore_{{ comment.id }}" onclick="moreLess(1,2, {{ comment.id }})">
+							<a>Więcej</a>
+						</div>
+					{% endif %}
+					
+					{% if k >= 13 %}
+						{% set _hidden_ = 'hidden' %}
+					{% else %}
+						{% set _hidden_ = '' %}
+					{% endif %}
+					
+					<div class="subpostInput {{ _hidden_ }}" id="subcomminp_{{ comment.id }}">
+						{% form_theme subcommentForm[comment.id] 'bootstrap_3_layout.html.twig' %}
+						{{ form(subcommentForm[comment.id],{'attr': {'novalidate':'true'}}) }}
+					</div>
+					{% set k = k + 1 %}
+				{% endfor %}
+				
+				<div class="subpostMoreLess text-center hidden" id="commLess" onclick="moreLess(0,1)">
+					<a>Mniej</a>
+				</div>
+					
+				{% if commCount > 13 %}
+					<div class="subpostMoreLess text-center" id="commMore" onclick="moreLess(1,1)">
+						<a>Więcej</a>
+					</div>
+				{% endif %}
+			
+			{% else %}
+				<p class="text-center lead">
+					{% if myData == userData %}
+						Nie masz żadnych komentarzy
+					{% else %}
+						Użytkownik nie ma żadnych komentarzy
+					{% endif %}
+				</p>
+			{% endif %}	
+			
+			<div class="postInput">
+				{% form_theme commentForm 'bootstrap_3_layout.html.twig' %}	
+				{{ form(commentForm,{'attr': {'novalidate':'true'}}) }}
+			</div>
 		</div>
 	</div>
 </div>

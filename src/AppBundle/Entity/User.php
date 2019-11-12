@@ -95,6 +95,12 @@ class User{
 	 
 	private $sex;
 	
+	/**
+	 * @ORM\Column(type="string",length=255)
+	 */
+	
+	private $profileImg;
+	
 	public function getId(){
 		
 		return $this->id;
@@ -147,6 +153,11 @@ class User{
 	public function getSex(){
 		
 		return $this->sex;
+	}
+	
+	public function getProfileImg(){
+		
+		return $this->profileImg;
 	}
 	
 	public function setName($name){

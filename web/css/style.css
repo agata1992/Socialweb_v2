@@ -20,9 +20,9 @@ form .help-block ul li span{
 	margin-bottom:30px;
 }
 
-.jumbotron1 .image{
-	float:left;
-	width:30%;
+.jumbotron1 img{
+	width:45%;
+	display:block;
 }
 
 .jumbotron1 .personal{
@@ -38,7 +38,7 @@ form .help-block ul li span{
 
 #footer{
 	background-color:#222;
-	margin-top:20px;
+	margin-top:40px;
 	margin-bottom:10px;
 	height:100px;
 }
@@ -100,7 +100,7 @@ form .help-block ul li span{
 	display:none;
 }
 
-.postInput button{
+.postInput button,.subpostInput button{
 	margin-left:auto;
 	margin-right:auto;
 	display:block;
@@ -139,7 +139,7 @@ form .help-block ul li span{
 }
 
 .subpostMoreLess{
-	margin-left:40px;
+	margin-left:20px;
 	margin-top:20px;
 }
 
@@ -150,4 +150,16 @@ form .help-block ul li span{
 	text-decoration:none;
 }
 
+.paginationDiv{
+	margin-left:20px;
+}
 
+.pagination li a{
+	text-decoration:none;
+	color:white;
+	background-color:#428bca;
+}
+
+.postElement a:hover{
+	text-decoration:none;
+}

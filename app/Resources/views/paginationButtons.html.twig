@@ -1,0 +1,40 @@
+{% set id = userData.id %}
+
+<nav> 
+	<ul class="pagination justify-content-center">
+		{% if page == 1 %}
+			<li class="page-item"><a class="page-link btn disabled" href="#">Poprzednie</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#"><<</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">1</a></li>	
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:2,id:id}) : path(link,{page:2}) }}">2</a></li>
+		
+			{% if all_pages >= 3 %}
+				<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:3,id:id}) : path(link,{page:3}) }}">3</a></li>
+			{% endif %}
+			
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:all_pages,id:id}) : path(link,{page:all_pages}) }}">>></a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:page + 1,id:id}) : path(link,{page:page + 1}) }}">Następne</a></li>
+		{% elseif page == all_pages %}
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:page - 1,id:id}) : path(link,{page:page - 1}) }}">Poprzednie</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:1,id:id}) : path(link,{page:1}) }}"><<</a>
+			
+			{% if all_pages >= 3 %}
+				<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:page - 2,id:id}) : path(link,{page:page - 2}) }}">{{page - 2}}</a></li>
+			{% endif %}
+		
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:page - 1,id:id}) : path(link,{page:page -1}) }}">{{ page - 1 }}</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">{{page}}</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">>></a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">Następne</a></li>
+		{% else %}
+	
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:page - 2,id:id}) : path(link,{page:page - 2}) }}">Poprzednie</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:1,id:id}) : path(link,{page:1}) }}"><<</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:page - 1,id:id}) : path(link,{page:page - 1}) }}">{{page - 1}}</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">{{page}}</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:page + 1,id:id}) : path(link,{page:page + 1}) }}">{{page + 1}}</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:all_pages,id:id}) : path(link,{page:all_pages}) }}">>></a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ myData != userData ? path(link,{page:page + 1,id:id}) : path(link,{page:page + 1}) }}">Następne</a></li>
+		{% endif %}
+	</ul>
+</nav>
