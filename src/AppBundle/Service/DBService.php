@@ -16,6 +16,8 @@ use AppBundle\Entity\Posts\Subposts;
 use AppBundle\Entity\Comments\Comments;
 use AppBundle\Entity\Comments\Subcomments;
 
+use AppBundle\Entity\Groups\Groups;
+use AppBundle\Entity\Groups\GroupsMember;
 
 use AppBundle\Service\AdditionalService;
 
@@ -316,6 +318,20 @@ class DBService{
 		
 		$this->entityManager->persist($subcommentForm);
 		$this->entityManager->flush();
+	}
+	
+	public function getUserGroup($id){
+		
+		$row = $this->entityManager->createQueryBuilder()
+			->select('g.id,g.title,g.image')
+			->from(Groups::class,'g')
+			->leftjoin(GroupsMember::class,'m','WITH','g.id = m.groupId')
+			->orderBy('g.title', 'ASC')
+			->where('m.userId = :userId')
+			->setParameter(":userId",$id)
+			->getQuery()->getResult();
+			
+		return $row;
 	}
 }
 ?>

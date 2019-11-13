@@ -4,7 +4,7 @@
 			{% if posts | length > 0 %}
 				
 				{% set all_elements = 5 %}
-				{% set all_pages = (( posts | length ) / 5) | round(0,'ceil') %}
+				{% set all_pages = (( posts | length ) / all_elements) | round(0,'ceil') %}
 				{% set begin = ( page * all_elements ) - all_elements %}
 				{% set end = begin + all_elements %}
 				
@@ -208,7 +208,7 @@
 					{% endif %}
 					
 					{% if k >= 13 %}
-						{% set _hidden_ = 'hidden' %}
+					{% set _hidden_ = 'hidden' %}
 					{% else %}
 						{% set _hidden_ = '' %}
 					{% endif %}

@@ -47,5 +47,8 @@
 	{% if app.request.get('_route') == 'path_' ~ prefix ~ 'home' %}
 		{% set link = app.request.get('_route') %}
 		{% include 'Profile/posts.html.twig' %}
+	{% elseif app.request.get('_route') == 'path_' ~ prefix ~ 'about' %}
+		{% set link = app.request.get('_route') %}
+		{% include 'Profile/about.html.twig' %}
 	{% endif %}
 </div>

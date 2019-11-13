@@ -182,20 +182,33 @@ class HomeController extends Controller{
 	}
 	
 	/**
-	 * @Route("/omnie",name="path_about")
+	 * @Route("/omnie/page/{page}",name="path_about",defaults={"page":1})
+	 * @Route("/user/{id}/omnie/page/{page}",name="path_user_about",defaults={"page":1})
 	 */
 	 
-	public function aboutAction(Request $request,DBService $db_service,CookieService $cookie_service){
+	public function aboutAction(Request $request,DBService $db_service,CookieService $cookie_service,$page,$id = null){
 	
 		$user = $cookie_service->check_exist_user_cookie();
 		
 		if($user == '')
 			return $this->redirect($this->generateUrl('path_login'));
 		
-		$myData = $userData = $db_service->getUserData($user,0);
+		if($id == null)
+			$myData = $userData = $db_service->getUserData($user,0);
+		else{
+		
+			$myData = $db_service->getUserData($user,0);
+			$userData = $db_service->getUserData($id,1);
+		}
 		
 	
-		return $this->render('Profile/home.html.twig',array('userData' => $userData,'myData' => $myData));
+		if($id == null)
+			$groups = $db_service->getUserGroup($myData->getId());
+		else
+			$groups = $db_service->getUserGroup($userData->getId());
+	
+		return $this->render('Profile/home.html.twig',array('userData' => $userData,'myData' => $myData,
+			'groups' => $groups,'page' => $page));
 	}
 	
 	/**

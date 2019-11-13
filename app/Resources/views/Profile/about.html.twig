@@ -1,0 +1,51 @@
+<div class="container mainContainer">
+
+	<h2>Grupy</h2>
+	
+	{% if groups | length == 0 %}
+		<div class="aboutContainer text-center">
+			{% if myData == userData %}
+				<h3>Nie jesteś zapisany do grup</h3>
+			{% else %}
+				<h3>Użytkownik nie jest zapisany do grup</h3>
+			{% endif %}
+		</div>
+	{% endif %}
+	
+	{% if groups | length > 0 %}
+		<div class="aboutContainer">
+			
+			{% set all_elements = 8 %}
+			{% set all_pages = (( groups | length ) / all_elements) | round(0,'ceil') %}
+			{% set begin = ( page * all_elements ) - all_elements %}
+			{% set end = begin + all_elements %}
+				
+			{% set i = 0 %}
+			
+			{% for group in groups %}
+			
+				{% if i >= begin and i < end %}
+					{% if i % 4 == 0 %}
+						<div class="row">
+					{% endif %}
+					<div class="col-md-3 groupCol">
+						<a href="#"><img class="image img-circle postImg" src="{{ asset('serviceImage/blank-profile.png') }}"></a>
+						<h4 class="text-center"><a href="#">{{ group.title}}</a></h4>
+					</div>
+				
+					{% if i % 4 == 3 or i + 1 == groups | length %}
+						</div>
+					{% endif %}
+				{% endif %}
+				
+				{% set i = i + 1 %}
+			{% endfor %}
+		</div>
+		
+		{% if all_pages > 1 %}
+			<div class="paginationDiv text-center">
+				{% include "paginationButtons.html.twig" %}
+			</div>
+		{% endif %}
+	{% endif %}
+</div>

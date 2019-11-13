@@ -73,7 +73,6 @@ form .help-block ul li span{
 }
 
 .postMessage{
-	
 	margin-top:20px;
 	font-weight:bold;
 	word-break: break-all;
@@ -162,4 +161,32 @@ form .help-block ul li span{
 
 .postElement a:hover{
 	text-decoration:none;
+}
+
+.aboutContainer{
+	margin-top:50px;
+	margin-bottom:50px;
+}
+
+.groupCol{
+	width:25%;
+	padding-top:10px;
+	padding-bottom:10px;
+	
+}
+
+.groupCol img{
+	width:60%;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.groupCol a{
+	text-decoration:none;
+	color:black;
+}
+
+.groupCol h4{
+	margin-top:20px;
 }
