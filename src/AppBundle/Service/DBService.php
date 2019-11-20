@@ -19,6 +19,11 @@ use AppBundle\Entity\Comments\Subcomments;
 use AppBundle\Entity\Groups\Groups;
 use AppBundle\Entity\Groups\GroupsMember;
 
+use AppBundle\Entity\Photos\Albums;
+use AppBundle\Entity\Photos\Photos;
+use AppBundle\Entity\Photos\PhotoComments;
+use AppBundle\Entity\Friends\Friends;
+
 use AppBundle\Service\AdditionalService;
 
 class DBService{
@@ -333,5 +338,222 @@ class DBService{
 			
 		return $row;
 	}
+	
+	public function getuserAlbums($myId,$userId){
+		
+		if($myId == $userId)
+			$row = $this->entityManager->getRepository(Albums::class)->findBy([
+				'userId' => $myId],['title' => 'ASC']);
+		else{
+			
+			$access = array('0');
+			// if($this -> checkIfFriends($myId,$userId))
+			// 	$access[] = '2';
+				
+			$row = $this->entityManager->getRepository(Albums::class)->findBy([
+				'userId' => $userId,'access' => $access],['title' => 'ASC']);
+		}
+		
+		return $row;
+	}
+	
+	public function checkAlbumExists($id,$name){
+		
+		$row = $this->entityManager->getRepository(Albums::class)->findBy([
+			'userId' => $id,'title' => $name]);
+			
+		return $row;
+		
+	}
+	
+	public function addAlbum($id,$name,$access,$albumForm){
+		
+		$albumForm -> setUserId($id);
+		$albumForm -> setTitle($name);
+		$albumForm -> setAccess($access);
+		
+		$this -> entityManager -> persist($albumForm);
+		$this -> entityManager -> flush();
+	}
+	
+	public function getuserAlbum($myId,$userId,$albumId){
+	
+		if($myId == $userId)
+			$row = $this->entityManager->getRepository(Albums::class)->findOneBy([
+				'userId' => $myId,'id' => $albumId]);
+		else{
+			
+			$access = array('0');
+			// if($this -> checkIfFriends($myId,$userId))
+			// 	$access[] = '2';
+				
+			$row = $this->entityManager->getRepository(Albums::class)->findOneBy([
+				'userId' => $userId,'access' => $access,'id' => $albumId]);
+		}
+		
+		return $row;
+	}
+	
+	public function addUserPhoto($albumId,$name){
+		
+		$photo = new Photos();
+		$photo -> setAlbumId($albumId);
+		$photo -> setName($name);
+		$photo -> setDate(new \DateTime(date("Y-m-d")));
+		
+		$this->entityManager->persist($photo);
+		$this->entityManager->flush();
+	}
+	
+	public function getAlbumPhotos($albumId){
+		
+		$row = $this->entityManager->getRepository(Photos::class)->findBy([
+			'albumId' => $albumId],['date' => 'DESC']);
+			
+		return $row;
+	}
+	
+	public function getCountPhoto($id){
+		
+		$row = $this->entityManager->createQueryBuilder()
+			->select('p.id')
+			->from(Photos::class,'p')
+			->leftjoin(Albums::class,'a','WITH','a.id = p.albumId')
+			->where('a.userId = :userId')
+			->setParameter(":userId",$id)
+			->getQuery()->getResult();
+			
+		return count($row);
+	}
+	
+	public function removeAlbum($id){
+		
+		$rows = $this->entityManager->getRepository(Photos::class)->findBy([
+			'albumId' => $id]);
+			
+		foreach($rows as $row){
+			$this -> entityManager -> remove($row);
+			$this -> entityManager -> flush();
+			
+		}
+		
+		$row = $this->entityManager->getRepository(Albums::class)->findOneBy([
+			'id' => $id]);
+	
+		$this -> entityManager -> remove($row);
+		$this -> entityManager -> flush();
+	}
+	
+	public function getUserPhoto($id){
+		
+		$row = $this->entityManager->getRepository(Photos::class)->findOneBy([
+			'id' => $id]);
+			
+		return $row;
+	}
+	
+	public function changePhotoDescription($id,$desc){
+		
+		$row = $this->entityManager->getRepository(Photos::class)->findOneBy([
+			'id' => $id]);
+			
+		$row -> setDescription($desc);
+		
+		$this -> entityManager -> persist($row);
+		$this -> entityManager -> flush();
+	}
+	
+	public function setProfileImage($id,$name){
+	
+		$row = $this->entityManager->getRepository(User::class)->findOneBy([
+			'id' => $id]);
+			
+		$row -> setprofileImg($name);
+		
+		$this -> entityManager -> persist($row);
+		$this -> entityManager -> flush();
+	}
+	
+	public function deletePhoto($id,$photo){
+		
+		$name = $photo -> getName();
+		$photoId = $photo -> getId();
+		
+		$row = $this->entityManager->getRepository(User::class)->findOneBy([
+			'id' => $id]);
+			
+		if($name == $row -> getProfileImg()){
+			$row -> setProfileImg(NULL);
+			$this -> entityManager -> persist($row);
+			$this -> entityManager -> flush();
+		}
+		
+		
+		$row = $this->entityManager->getRepository(PhotoComments::class)->findBy([
+			'imageId' => $photoId]);
+			
+		for($i=0;$i<count($row);$i++){
+			$this -> entityManager -> remove($row[$i]);
+			$this -> entityManager -> flush();
+		}
+		
+		$this -> entityManager -> remove($photo);
+		$this -> entityManager -> flush();
+		
+	}
+	
+	public function getPhotoComments($id){
+		
+		$row = $this->entityManager->createQueryBuilder()
+			->select('c.id,c.userId,c.date,c.text,u.name,u.surname,u.profileImg')
+			->from(PhotoComments::class,'c')
+			->leftjoin(User::class,'u','WITH','u.id = c.userId')
+			->orderBy('c.date', 'DESC')
+			->where('c.imageId = :imageId')
+			->setParameter(":imageId",$id)
+			->getQuery()->getResult();
+			
+		return $row;
+	}
+	
+	public function addPhotoComments($userId,$photoId,$commentForm){
+		
+		$commentForm -> setUserId($userId);
+		$commentForm -> setImageId($photoId);
+		$commentForm -> setDate(new \DateTime(date("Y-m-d H:i")));
+		
+		$this -> entityManager -> persist($commentForm);
+		$this -> entityManager -> flush();
+	}
+	
+	public function getFriends($id){
+		
+		$rows = $this->entityManager->createQueryBuilder()
+			->select('f.id,f.userId,f.userId2,f.date,u.name,u.surname,u.profileImg')
+			->from(Friends::class,'f')
+			->leftjoin(User::class,'u','WITH','u.id = f.userId')
+			->where('f.userId = :userId or f.userId2 =:userId')
+			->setParameter(":userId",$id)
+			->getQuery()->getResult();
+		
+		$friendsArray = array();
+		
+		foreach($rows as $row){
+		
+			if($row['userId'] == $id)
+				$friendsArray[] = $row['userId2'];
+			else
+				$friendsArray[] = $row['userId'];
+		}
+		
+		$row = $this->entityManager->getRepository(User::class)->findBy([
+			'id' => $friendsArray],['name' => 'ASC']);
+		
+		
+		return $row;
+	}
+	
+	
+	
 }
 ?>

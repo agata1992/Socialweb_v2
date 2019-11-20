@@ -12,7 +12,7 @@
 	width:40%;
 }
 
-form .help-block ul li span{
+form .help-block ul li span,form .alert{
 	display:none;
 }
 
@@ -75,7 +75,7 @@ form .help-block ul li span{
 .postMessage{
 	margin-top:20px;
 	font-weight:bold;
-	word-break: break-all;
+	word-break: break-word;
 }
 
 .noPostInfo{
@@ -168,11 +168,15 @@ form .help-block ul li span{
 	margin-bottom:50px;
 }
 
+.galeryContainer{
+	margin-top:100px;
+	margin-bottom:50px;
+}
+
 .groupCol{
 	width:25%;
 	padding-top:10px;
 	padding-bottom:10px;
-	
 }
 
 .groupCol img{
@@ -189,4 +193,72 @@ form .help-block ul li span{
 
 .groupCol h4{
 	margin-top:20px;
+}
+
+#addPhoto{
+	margin-top:100px;
+	display: table; 
+	margin-left: auto;
+	margin-right:auto;
+}
+
+.photoUpload{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.photoUpload label, .photoUpload input,.photoUpload .btn{
+	display:none;
+}
+
+.photoContainer{
+	display:block;
+	margin-top:80px;
+	width:60%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.photoContainer #profileImage{
+	width:4%;
+}
+
+.photoContainer .info{
+	margin-top:10px;
+}
+
+.photoContainer a{
+	margin-left:10px;
+	color:black;
+	font-weight:bold;
+}
+
+.photoContainer a:hover{
+	text-decoration:none;
+	color:black;
+}
+
+.photoContainer .description{
+	margin-top:20px;
+	background-color:#eee;
+	border-radius:10px 10px 10px 10px;
+	padding:10px 10px 10px 10px;
+}
+
+.photoContainer .buttons{
+	margin-top:20px;
+}
+
+.buttons a,.buttons a:hover{
+	color:white;
+}
+
+
+.commentsPhotoContainer{
+	margin-top:30px;
+}
+
+.commentsPhotoContainer .postElement{
+	margin-left:0px;
 }

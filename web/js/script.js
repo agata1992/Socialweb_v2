@@ -16,6 +16,22 @@ window.onload = window.onresize = function(event){
 		width = elements[i].width;
 		elements[i].height = width;
 	}
+	
+	if ( $( "#modal1 .has-error" ).length ){
+		
+		element = $("#modal1 .has-error");
+		
+		if(element.attr("class").includes('has-error'))
+			$("#modal1").modal();
+	}
+	
+	width = document.getElementById('profileImage').width;
+	document.getElementById('profileImage').height = width;
+	
+	pathMenu = document.getElementById('submenu').classList;
+	
+	if(pathMenu == 'path_album' || pathMenu == 'path_user_album')
+		document.getElementById('path_galery').classList.add('active');
 }
 
 /*
@@ -158,3 +174,19 @@ function moreLess(type,item,id){
 			document.getElementById('subcommMore_' + id).classList.remove('hidden');
 	}
 }
+	
+function showModal(id){
+	
+	$("#" + id).modal();
+}	
+
+
+function uploadPhoto(){
+	
+	$('#form_photo').click();
+}
+	
+$('#form_photo').change(function(){
+	
+	$('.photoUpload #form_submit1').click();
+});

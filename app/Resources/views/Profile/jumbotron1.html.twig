@@ -1,3 +1,9 @@
+{% if userData.sex == "f" %}
+	{% set sexClass = "fa fa-venus" %}
+{% else %}
+	{% set sexClass = "fa fa-mars" %}
+{% endif %}
+
 <div class="jumbotron jumbotron1">
 	<div class="container">
 		<div class="row">
@@ -10,7 +16,7 @@
 				{% endif %}
 			
 				<div class="personal">
-				<strong class="lead">{{ userName }}</strong></br>
+				<strong class="lead">{{ userName }}  <span><i class="{{ sexClass }}"></i></span></strong></br>
 				<strong>{{ userCity }}, {{ userData.age }}</strong></div>
 			</div>
 			<div class="col-md-2">
@@ -22,7 +28,7 @@
 			<div class="col-md-2">
 				<div class="text-center">
 					<h4>Zdjęcia</h4></br>
-					<h3>4</h3>
+					<h3>{{ photoCount }}</h3>
 				</div>
 			</div>
 			<div class="col-md-5 text-right">

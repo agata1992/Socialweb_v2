@@ -209,5 +209,10 @@ class User{
 		
 		return $this->sex = $sex;
 	}
+	
+	public function setProfileImg($image){
+		
+		return $this->profileImg = $image;
+	}
 }
 ?>
