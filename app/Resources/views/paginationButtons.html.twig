@@ -1,0 +1,57 @@
+{% if album is defined %}
+	{% set albumId = album.id %}
+{% else %}
+	{% set albumId = null %}
+{% endif %}
+
+{% if photo is defined %}
+	{% set photoId = photo.id %}
+	{% set albumId = photo.albumId %}
+{% else %}
+	{% set photoId = null %}
+{% endif %}
+
+{% if userData != myData %}
+	{% set id = userData.id %}
+{% else %}
+	{% set id = null %}
+{% endif %}
+
+<nav> 
+	<ul class="pagination justify-content-center">
+		{% if page == 1 %}
+			<li class="page-item"><a class="page-link btn disabled" href="#">Poprzednie</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#"><<</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">1</a></li>	
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:2,id:id}) }}">2</a></li>
+		
+			{% if all_pages >= 3 %}
+				<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:3,id:id}) }}">3</a></li>
+			{% endif %}
+			
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:all_pages,id:id}) }}">>></a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:page + 1,id:id}) }}">Następne</a></li>
+		{% elseif page == all_pages %}
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:page - 1,id:id}) }}">Poprzednie</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:1,id:id}) }}"><<</a>
+			
+			{% if all_pages >= 3 %}
+				<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:page - 2,id:id}) }}">{{page - 2}}</a></li>
+			{% endif %}
+		
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:page - 1,id:id}) }}">{{ page - 1 }}</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">{{page}}</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">>></a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">Następne</a></li>
+		{% else %}
+	
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:page - 2,id:id}) }}">Poprzednie</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:1,id:id}) }}"><<</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:page - 1,id:id}) }}">{{page - 1}}</a></li>
+			<li class="page-item"><a class="page-link btn disabled" href="#">{{page}}</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:page + 1,id:id}) }}">{{page + 1}}</a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:all_pages,id:id}) }}">>></a></li>
+			<li class="page-item"><a class="page-link btn" href="{{ path(link,{albumId:albumId,photoId:photoId,page:page + 1,id:id}) }}">Następne</a></li>
+		{% endif %}
+	</ul>
+</nav>

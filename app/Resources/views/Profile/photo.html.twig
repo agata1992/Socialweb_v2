@@ -1,0 +1,98 @@
+{% if userData == myData %}
+
+	{% import 'Modals/modal1.html.twig' as modal1 %}
+	{% import 'Modals/decisionModal.html.twig' as decision %}
+	{% import 'Modals/decisionModal.html.twig' as decision1 %}
+	
+	{{ modal1.modal('Zmień opis',changeDescriptionForm) }}
+	{{ decision.modal('Zdjęcie profilowe?','Czy chcesz ustawić zdjęcie jako profilowe?','profileImg', profileImgForm) }}
+	{{ decision1.modal('Usuń zdjęcie','Czy chcesz usunąć zdjęcie?','deletePhoto', deletePhotoForm) }}
+	
+{% endif %}
+
+<div class="photoContainer">
+
+	<img class="image" width="100%" src="{{ asset('image/' ~ photo.name) }}">
+
+	<div class="info">
+		{% if userData.profileImg is null  %}
+			<img class="image img-circle" id="profileImage" src="{{ asset('serviceImage/blank-profile.png') }}">
+		{% else %}
+			<img class="img-circle" id="profileImage" src="{{ asset('image/' ~ userData.profileImg) }}">
+		{% endif %}
+		
+		<a>{{ userData.name ~ ' ' ~ userData.surname }}</a>
+		<a class="pull-right">{{ photo.date | date('d.m.Y')}}</a>
+	</div>
+	
+	<div class="description">
+		{% if photo.description == '' %}
+			Brak opisu
+		{% else %}
+			{{ photo.description }}
+		{% endif %}
+	</div>
+	
+	{% if userData == myData %}
+		<div class="buttons">
+			<a class="btn btn-primary" title="Zmień opis" onclick="showModal('modal1')"><span><i class="fa fa-file"></i></span></a>
+			<a class="btn btn-primary" title="Ustaw jako profilowe" onclick="showModal('profileImg')" {{ userData.profileImg == photo.name ? 'disabled' : '' }}>
+				<span><i class="fa fa-user"></i></span>
+			</a>
+			<a class="btn btn-primary" title="Usuń zdjęcie" onclick="showModal('deletePhoto')"><span><i class="fa fa-trash"></i></span></a>
+		</div>
+	{% endif %}
+	
+	<div class="commentsPhotoContainer">
+	
+		{% if comments | length == 0 %}
+			<div class="galeryContainer text-center">
+				<h5>Brak komentarzy do zdjęcia</h5>
+			</div>
+		{% endif %}
+		
+		{% set all_elements = 5 %}
+		{% set all_pages = (( comments | length ) / all_elements) | round(0,'ceil') %}
+		{% set begin = ( page * all_elements ) - all_elements %}
+		{% set end = begin + all_elements %}
+		
+		
+		{% if comments | length > 0 %}
+			<div class="galeryContainer">
+			
+				{% set i = 0 %}
+			
+				{% for comment in comments %}
+					{% if i >= begin and i < end %}
+						<div class="postElement">
+							<a href="{{ path(profileMenu[0]['path'],param) }}">
+								{% if comment.profileImg is null  %}
+									<img class="image img-circle postImg" src="{{ asset('serviceImage/blank-profile.png') }}">
+								{% else %}
+									<img class="img-circle postImg" src="{{ asset('image/' ~ comment.profileImg) }}">
+								{% endif %}
+							</a>
+							<a class="name" href="{{ path(profileMenu[0]['path'],param) }}">{{ comment.name ~ ' ' ~ comment.surname }}</a>
+							<a class="date">{{ comment.date | date('d.m.Y H:i') }}</a>
+							<div class="postMessage">
+								{{ comment.text }}
+							</div>
+						</div>
+					{% endif %}
+					{% set i = i + 1 %}
+				{% endfor %}
+			</div>
+		{% endif %}
+		
+		<div class="postInput">
+			{% form_theme commentForm 'bootstrap_3_layout.html.twig' %}	
+				{{ form(commentForm,{'attr': {'novalidate':'true'}}) }}
+		</div>
+			
+	
+		{% if all_pages > 1 %}
+			<div class="paginationDiv text-center">
+				{% include "paginationButtons.html.twig" %}
+			</div>
+		{% endif %}
+</div>

@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{% if myData == userData %}
+		{% set title = "Strona Główna" %}
+	{% else %}
+		{% set title = "Użytkownik " ~ userData.name ~ ' ' ~ userData.surname %}
+	{% endif %}
+	
+	{{ title }} | {{ parent() }}
+{% endblock %}
+
+{% block pageContent %} 
+	{% include 'Profile/profileScheme.html.twig' %}
+{% endblock %}

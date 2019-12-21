@@ -1,0 +1,72 @@
+{% if myData == userData %}
+	{% set path = 'path_album' %}
+{% else %}
+	{% set path = 'path_user_album' %}
+{% endif %}
+
+<div class="container mainContainer">
+
+	<h2>Albumy</h2>
+	
+	{% import 'Modals/modal1.html.twig' as modal1 %}
+	
+	{{ modal1.modal('Dodaj album',albumForm) }}
+
+	{% if myData == userData %}
+		<a class="btn btn-lg btn-primary pull-right" onclick="showModal('modal1')">Dodaj album  <span><i class="fa fa-plus"></i></span></a>
+	{% endif %}
+		
+	{% if albums | length == 0 %}
+		<div class="galeryContainer text-center">
+			{% if myData == userData %}
+				<h3>Nie masz albumów</h3>
+			{% else %}
+				<h3>Użytkownik nie ma albumów</h3>
+			{% endif %}
+		</div>
+	{% endif %}
+	
+	{% if albums | length > 0 %}
+		<div class="galeryContainer">
+			
+			{% set all_elements = 8 %}
+			{% set all_pages = (( albums | length ) / all_elements) | round(0,'ceil') %}
+			{% set begin = ( page * all_elements ) - all_elements %}
+			{% set end = begin + all_elements %}
+				
+			{% set i = 0 %}
+			
+			{% for album in albums %}
+			
+				{% if i >= begin and i < end %}
+				
+					{% if myData == userData %}
+						{% set param = {'albumId':album.id} %}
+					{% else %}
+						{% set param = {'id':userData.id,'albumId':album.id} %}
+					{% endif %}
+					
+					{% if i % 4 == 0 %}
+						<div class="row">
+					{% endif %}
+					<div class="col-md-3 groupCol">
+						<a href="{{ path(path,param) }}"><img class="image" src="{{ asset('serviceImage/album.png') }}"></a>
+						<h4 class="text-center"><a href="#">{{ album.title}}</a></h4>
+					</div>
+				
+					{% if i % 4 == 3 or i + 1 == albums | length %}
+						</div>
+					{% endif %}
+				{% endif %}
+				
+				{% set i = i + 1 %}
+			{% endfor %}
+		</div>
+		
+		{% if all_pages > 1 %}
+			<div class="paginationDiv text-center">
+				{% include "paginationButtons.html.twig" %}
+			</div>
+		{% endif %}
+	{% endif %}
+</div>

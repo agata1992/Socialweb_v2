@@ -1,0 +1,64 @@
+<div class="container-fluid">
+		
+	{% set userName = userData.name ~ ' ' ~ userData.surname %}
+	{% if userData.city == '' %}
+		{% set userCity = '---' %}
+	{% else %}
+		{% set userCity = userData.city %}
+	{% endif %}
+		
+	{% include "Profile/jumbotron1.html.twig" %}
+		
+	{% if myData == userData %}	
+		{% set prefix = '' %}
+	{% else %}
+		{% set prefix = 'user_' %}
+	{% endif %}
+	
+	{%
+		set profileMenu = [
+			{'path': 'path_' ~ prefix ~ 'home','name':'Posty','raw_name':'path_posts'},
+			{'path': 'path_' ~ prefix ~ 'about','name':'O mnie','raw_name':'path_about'},
+			{'path': 'path_' ~ prefix ~ 'galery','name':'Zdjęcia','raw_name':'path_galery'},
+			{'path': 'path_' ~ prefix ~ 'friends','name':'Znajomi','raw_name':'path_friens'}
+		]
+	%}
+	
+	{% if myData == userData %}
+		{% set param = {} %}
+	{% else %}
+		{% set param = {'id':userData.id} %}
+	{% endif %}
+	
+	<div class="navbar navbar-inverse">
+		<div class="{{ app.request.get('_route') }}" id="submenu"></div>
+		<div class="container">
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					{% for menu in profileMenu %}
+						<li id="{{ menu.raw_name }}" {{ app.request.get('_route') == menu['path'] ? 'class="active"': ''}}>
+							<a href="{{path(menu['path'],param)}}">{{ menu.name }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>	
+	
+	{% set link = app.request.get('_route') %}
+	
+	{% if app.request.get('_route') == 'path_' ~ prefix ~ 'home' %}
+		{% include 'Profile/posts.html.twig' %}
+	{% elseif app.request.get('_route') == 'path_' ~ prefix ~ 'about' %}
+		{% include 'Profile/about.html.twig' %}
+	{% elseif app.request.get('_route') == 'path_' ~ prefix ~ 'galery' %}
+		{% include 'Profile/galery.html.twig' %}
+	{% elseif app.request.get('_route') == 'path_' ~ prefix ~ 'album' %}
+		{% include 'Profile/album.html.twig' %}
+	{% elseif app.request.get('_route') == 'path_' ~ prefix ~ 'photo' %}
+		{% include 'Profile/photo.html.twig' %}
+	{% elseif app.request.get('_route') == 'path_' ~ prefix ~ 'friends' %}
+		{% include 'Profile/friends.html.twig' %}
+	{% endif %}
+	
+</div>

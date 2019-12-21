@@ -1,0 +1,264 @@
+.navbar .navbar-brand{
+	pointer-events: none;
+}
+
+.login_container{
+	margin-top:5%;
+	width:40%;
+}
+
+.register_container{
+	margin-top:2%;
+	width:40%;
+}
+
+form .help-block ul li span,form .alert{
+	display:none;
+}
+
+.loginH1Margin{
+	margin-bottom:30px;
+}
+
+.jumbotron1 img{
+	width:45%;
+	display:block;
+}
+
+.jumbotron1 .personal{
+	margin-top:10px;
+}
+
+.mainContainer{
+	background-color:white;
+	min-height:200px;
+	padding-top:30px;
+	padding-bottom:30px;
+}
+
+#footer{
+	background-color:#222;
+	margin-top:40px;
+	margin-bottom:10px;
+	height:100px;
+}
+
+#footer p{
+	margin-top:40px;
+}
+
+.postElement{
+	margin-left:20px;
+	margin-top:20px;
+	background-color:#eee;
+	padding:10px 10px 10px 10px;
+	border-radius:20px 20px;
+}
+
+.postElement img{
+	width:7%;
+}
+
+.postElement .name, .subpostElement .name{
+	color:black;
+	margin-left:10px;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+.postElement .date,.subpostElement .date{
+	color:black;
+	margin-left:50px;
+	pointer-events: none;
+}
+
+.postMessage{
+	margin-top:20px;
+	font-weight:bold;
+	word-break: break-word;
+}
+
+.noPostInfo{
+	margin-left:30px;
+}
+
+.postInput{
+	margin-top:50px;
+	width:80%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.subpostInput{
+	margin-top:30px;
+	margin-left:20px;
+	margin-right:auto;
+}
+
+.postInput label,.subpostInput label{
+	display:none;
+}
+
+.postInput button,.subpostInput button{
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+}
+
+.subpostElement{
+	margin-left:40px;
+	margin-top:20px;
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-left:10px;
+}
+
+.subpostElement img{
+	width:100%;
+}
+
+.imageTd{
+	width:5%;
+}
+
+.contentTd{
+	padding-left:10px;
+}
+
+.subpostContent{
+	background-color:#eee;
+	padding:10px 10px 10px 10px;
+	border-radius:20px 20px;
+}
+
+.subpostMessage{
+	margin-left:10px;
+	margin-top:15px;
+	word-break: break-all;
+}
+
+.subpostMoreLess{
+	margin-left:20px;
+	margin-top:20px;
+}
+
+.subpostMoreLess a{
+	color:black;
+	font-weight:bold;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+.paginationDiv{
+	margin-left:20px;
+}
+
+.pagination li a{
+	text-decoration:none;
+	color:white;
+	background-color:#428bca;
+}
+
+.postElement a:hover{
+	text-decoration:none;
+}
+
+.aboutContainer{
+	margin-top:50px;
+	margin-bottom:50px;
+}
+
+.galeryContainer{
+	margin-top:100px;
+	margin-bottom:50px;
+}
+
+.groupCol{
+	width:25%;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+.groupCol img{
+	width:60%;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.groupCol a{
+	text-decoration:none;
+	color:black;
+}
+
+.groupCol h4{
+	margin-top:20px;
+}
+
+#addPhoto{
+	margin-top:100px;
+	display: table; 
+	margin-left: auto;
+	margin-right:auto;
+}
+
+.photoUpload{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.photoUpload label, .photoUpload input,.photoUpload .btn{
+	display:none;
+}
+
+.photoContainer{
+	display:block;
+	margin-top:80px;
+	width:60%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.photoContainer #profileImage{
+	width:4%;
+}
+
+.photoContainer .info{
+	margin-top:10px;
+}
+
+.photoContainer a{
+	margin-left:10px;
+	color:black;
+	font-weight:bold;
+}
+
+.photoContainer a:hover{
+	text-decoration:none;
+	color:black;
+}
+
+.photoContainer .description{
+	margin-top:20px;
+	background-color:#eee;
+	border-radius:10px 10px 10px 10px;
+	padding:10px 10px 10px 10px;
+}
+
+.photoContainer .buttons{
+	margin-top:20px;
+}
+
+.buttons a,.buttons a:hover{
+	color:white;
+}
+
+
+.commentsPhotoContainer{
+	margin-top:30px;
+}
+
+.commentsPhotoContainer .postElement{
+	margin-left:0px;
+}

@@ -1,0 +1,15 @@
+<div class="container mainContainer">
+
+	<h2>Znajomi</h2>
+	
+	{% if friends | length == 0 %}
+		<div class="galeryContainer text-center">
+			{% if myData == userData %}
+				<h3>Nie masz znajomych</h3>
+				{% else %}
+				<h3>Użytkownik nie ma znajomych</h3>
+			{% endif %}
+		</div>
+	{% endif %}
+	
+</div>
