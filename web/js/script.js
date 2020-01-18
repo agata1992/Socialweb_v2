@@ -1,7 +1,46 @@
 window.onload = window.onresize = function(event){
-
-	width = document.getElementById('jumboImg').width;
-	document.getElementById('jumboImg').height = width;
+	
+	var screenWidth = $(window).width();
+	
+	if(screenWidth < 768){
+		
+		if(document.getElementById('jumbotronProfile') != null){
+			document.getElementById("infoDiv").classList.remove("pull-right");
+			document.getElementById("infoDiv").classList.add("text-center");
+			document.getElementById("imageDiv").classList.add("text-center");
+			document.getElementById("jumboImg").style.marginLeft = "auto";
+			document.getElementById("jumboImg").style.marginRight = "auto";
+			document.getElementById('secondSection').getElementsByTagName('div')[0].classList.add("text-center");
+			document.getElementById('secondSection').getElementsByTagName('a')[1].classList.remove("pull-right");
+			document.getElementById('secondSection').getElementsByTagName('div')[1].classList.add("text-center");
+		}
+	}
+	else{
+	
+		if(document.getElementById('jumbotronProfile') != null){
+			document.getElementById("infoDiv").classList.add("pull-right");
+			document.getElementById("imageDiv").classList.remove("text-center");
+			document.getElementById("jumboImg").style.marginLeft = "0";
+			document.getElementById('secondSection').getElementsByTagName('div')[0].classList.remove("text-center");
+			document.getElementById('secondSection').getElementsByTagName('div')[0].classList.remove("text-center");
+			document.getElementById('secondSection').getElementsByTagName('a')[1].classList.add("pull-right");
+		}
+	}
+	
+	if(screenWidth < 992){
+		
+		if(document.getElementById('postsField') != null){
+			document.getElementById('postsField').classList.remove('mainContainer');
+			document.getElementById('postsField').classList.add('mainContainer2');
+		}
+	}
+	else{
+		
+		if(document.getElementById('postsField') != null){
+			document.getElementById('postsField').classList.remove('mainContainer2');
+			document.getElementById('postsField').classList.add('mainContainer');
+		}
+	}
 	
 	elements = document.getElementsByClassName('postImg');
 	
@@ -25,13 +64,17 @@ window.onload = window.onresize = function(event){
 			$("#modal1").modal();
 	}
 	
-	width = document.getElementById('profileImage').width;
-	document.getElementById('profileImage').height = width;
+	if(document.getElementById('profileImage') != null){
+		width = document.getElementById('profileImage').width;
+		document.getElementById('profileImage').height = width;
+	}
 	
-	pathMenu = document.getElementById('submenu').classList;
+	if(document.getElementById('submenu') != null){
+		pathMenu = document.getElementById('submenu').classList;
 	
-	if(pathMenu == 'path_album' || pathMenu == 'path_user_album')
-		document.getElementById('path_galery').classList.add('active');
+		if(pathMenu == 'path_album' || pathMenu == 'path_user_album')
+			document.getElementById('path_galery').classList.add('active');
+		}
 }
 
 /*

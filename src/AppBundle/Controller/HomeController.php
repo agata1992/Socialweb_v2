@@ -37,8 +37,8 @@ use AppBundle\Entity\Friends\Friends;
 class HomeController extends Controller{
 	
 	/**
-	 * @Route("/page/{page}",name="path_home",defaults={"page":1})
-	 * @Route("/user/{id}/page/{page}",name="path_user_home",defaults={"page":1})
+	 * @Route("/profil/{page}",name="path_home",defaults={"page":1})
+	 * @Route("/user/{id}/profil/{page}",name="path_user_home",defaults={"page":1})
 	 */
 	
 	public function homeAction(Request $request,DBService $db_service,CookieService $cookie_service,$page,$id = null){
@@ -274,10 +274,7 @@ class HomeController extends Controller{
 					
 				$db_service -> addAlbum($userData -> getId(),$name,$access,$albumForm);
 					
-				if($id == NULL)
-					return $this->redirect($this -> generateUrl('path_photo'));
-				else
-					return $this->redirect($this -> generateUrl('path_user_photo'));
+				return $this->redirect($this -> generateUrl('path_galery'));
 			}
 		}
 		
@@ -361,10 +358,9 @@ class HomeController extends Controller{
 			
 			$db_service -> removeAlbum($albumId);
 			
-			if($id == NULL)
-				return $this->redirect($this -> generateUrl('path_photo'));
-			else
-				return $this->redirect($this -> generateUrl('path_user_photo'));
+			
+			return $this->redirect($this -> generateUrl('path_galery'));
+			
 		}
 		
 		$formAddPhoto = $this->createFormBuilder()
@@ -522,9 +518,9 @@ class HomeController extends Controller{
 	
 	
 	/**
-	 * @Route("/znajomi/page/{page}",name="path_friends",defaults={"page":1})
+	 * @Route("/znajomi/{page}",name="path_friends",defaults={"page":1})
 	 *
-	 * @Route("/user/{id}/znajomi/page/{page}",name="path_user_friends",defaults={"page":1})
+	 * @Route("/user/{id}/znajomi/{page}",name="path_user_friends",defaults={"page":1})
 	 */
 	 
 	public function friendsAction(DBService $db_service,CookieService $cookie_service,$id=null,$page){

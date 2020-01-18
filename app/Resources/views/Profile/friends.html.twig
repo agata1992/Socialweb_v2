@@ -12,4 +12,21 @@
 		</div>
 	{% endif %}
 	
+	
+	{% if friends | length > 0 %}
+		<div class="aboutContainer">
+	
+			{% set all_elements = 8 %}
+			{% set all_pages = (( friends | length ) / all_elements) | round(0,'ceil') %}
+			{% set begin = ( page * all_elements ) - all_elements %}
+			{% set end = begin + all_elements %}
+				
+			{% set i = 0 %}
+	
+	
+	
+	
+		</div>
+	{% endif %}
+	
 </div>

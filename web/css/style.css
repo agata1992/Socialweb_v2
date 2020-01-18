@@ -1,15 +1,11 @@
-.navbar .navbar-brand{
+﻿.navbar .navbar-brand{
 	pointer-events: none;
 }
 
-.login_container{
-	margin-top:5%;
-	width:40%;
-}
-
-.register_container{
+.register_container,.login_container{
 	margin-top:2%;
-	width:40%;
+	width:50%;
+	margin-bottom:120px;
 }
 
 form .help-block ul li span,form .alert{
@@ -20,27 +16,62 @@ form .help-block ul li span,form .alert{
 	margin-bottom:30px;
 }
 
-.jumbotron1 img{
-	width:45%;
+#jumbotronProfile #imageDiv{
 	display:block;
 }
 
-.jumbotron1 .personal{
+#jumbotronProfile img{
+	width:120px;
+	height:120px;
+	display:block;
+}
+
+#jumbotronProfile .personal{
 	margin-top:10px;
 }
 
+#jumbotronProfile .personal .name{
+	font-weight: bold;
+	margin-bottom:0;
+	font-size: 19px;
+	color:grey;
+}
+
+#jumbotronProfile .info{
+	display:inline-block;
+	margin-left:5px;
+	margin-right:5px;
+}
+
+#jumbotronProfile #infoDiv h4{
+	color:grey;
+}
+
+#jumbotronProfile #firstSection{
+	margin-bottom:15px;
+}
+
+#jumbotronProfile #secondSection div:first-child{
+	margin-bottom:5px;
+}
+
 .mainContainer{
-	background-color:white;
-	min-height:200px;
 	padding-top:30px;
-	padding-bottom:30px;
+	margin-bottom:120px;
+}
+
+.mainContainer2{
+
+	padding-top:30px;
+
 }
 
 #footer{
 	background-color:#222;
-	margin-top:40px;
-	margin-bottom:10px;
-	height:100px;
+	position:fixed;
+	bottom:5px;
+	padding-top:5px;
+	width:100%;
 }
 
 #footer p{
@@ -218,6 +249,7 @@ form .help-block ul li span,form .alert{
 	width:60%;
 	margin-left:auto;
 	margin-right:auto;
+	margin-bottom:120px;
 }
 
 .photoContainer #profileImage{
@@ -254,11 +286,17 @@ form .help-block ul li span,form .alert{
 	color:white;
 }
 
-
 .commentsPhotoContainer{
 	margin-top:30px;
 }
 
 .commentsPhotoContainer .postElement{
 	margin-left:0px;
+}
+
+@media (max-width: 700px) {
+
+	.navbar-toggle {
+		display: block;
+	}
 }

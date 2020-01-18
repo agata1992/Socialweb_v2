@@ -48,7 +48,7 @@ class LoginController extends Controller{
 			$password = $form["password"]->getData();
 				
 			$result = $dbService->checkLoginCorrect($email,$password);
-				print $result;
+			
 			if($result == 1){
 			
 				$cookieService->set_cookie($email);
@@ -113,7 +113,7 @@ class LoginController extends Controller{
 				
 				$link = $dbService->setNoActivateAccount($register);
 				
-				$link = 'http://localhost/socialweb_v2/web/app_dev.php/aktywacja/'.$link;
+				$link = 'http://socialweb.ddns.net/aktywacja/'.$link;
 				
 				$name = $form['name']->getData().' '.$form['surname']->getData();
 				

@@ -19,7 +19,7 @@ class MailService{
 	
 		$message  = \Swift_Message::newInstance()
 						->setSubject($title)
-						->setFrom(array('' => "test test"))
+						->setFrom(array('' => "Socialweb"))
 						->setTo(array($email => $name))
 						->setBody($body);
 				

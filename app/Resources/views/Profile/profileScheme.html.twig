@@ -32,8 +32,13 @@
 	
 	<div class="navbar navbar-inverse">
 		<div class="{{ app.request.get('_route') }}" id="submenu"></div>
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarMenu">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
 		<div class="container">
-			<div class="navbar-collapse collapse">
+			<div class="navbar-collapse collapse" id="navbarMenu">
 				<ul class="nav navbar-nav">
 					{% for menu in profileMenu %}
 						<li id="{{ menu.raw_name }}" {{ app.request.get('_route') == menu['path'] ? 'class="active"': ''}}>
